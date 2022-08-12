@@ -35,5 +35,5 @@ func Encode(src []byte) string {
 }
 
 func main() {
-	Encode([]byte("\xfc\x48\x83\xe4......."))
+	Encode([]byte("\xfc\x48\x83\xe4\x42......"))
 }
